@@ -3,6 +3,6 @@
 ## CURRENT PROGRESS 
 
 **Generates Random Quotes (Done)**
-* Din't use any API haven't learned it yet.
+* Have not yet learned how to use any API.
 
 **Browes through quotes (In Progress)**
