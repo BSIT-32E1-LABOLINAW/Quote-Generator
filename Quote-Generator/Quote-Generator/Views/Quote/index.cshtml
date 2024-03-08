@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styles */
+        body {
+            background-color: #f8f9fa;
+           
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        blockquote {
+            background-color: #fff;
+            border-left: 5px solid #007bff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        blockquote footer {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .btn-generate {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-generate:hover {
+            background-color: #0056b3;
+        }
+
+        .quote-link {
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .quote-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Quote-Generator</h1>
+        <div id="quoteContainer" class="text-center">
+            <blockquote id="quote" style="display: none;">
+                <p><span id="quoteText"></span></p>
+                <footer><span id="quoteAuthor"></span></footer>
+            </blockquote>
+            <button id="generateQuoteBtn" class="btn btn-generate" onclick="generateRandomQuote()">Generate Random Quote</button>
+        </div>
+        <div id="browseQuotesContainer" class="mt-5" style="display: none;">
+            <h2 class="text-center mb-4">Browse Quotes</h2>
+            <ul id="quoteList" class="list-group">
+                <li class="quoteItem list-group-item">
+                    <a class="quoteLink" style="display: none;" id="generatedQuoteLink" data-quote-id="" onclick="loadQuoteDetails(this.dataset.quoteId)"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function generateRandomQuote() {
+            // Clear any existing quote
+            document.getElementById('quoteText').textContent = '';
+            document.getElementById('quoteAuthor').textContent = '';
+
+            // AJAX request to fetch a random quote
+            fetch('/Quote/Random')
+                .then(response => response.json())
+                .then(data => {
+                    // Update the quote text and author on the page
+                    document.getElementById('quoteText').textContent = data.text;
+                    document.getElementById('quoteAuthor').textContent = data.author;
+                    // Display the quote
+                    document.getElementById('quote').style.display = 'block';
+
+                    // Show the browse quotes section
+                    document.getElementById('browseQuotesContainer').style.display = 'block';
+
+                    // Hide all quote links
+                    var quoteLinks = document.getElementsByClassName('quoteLink');
+                    for (var i = 0; i < quoteLinks.length; i++) {
+                        quoteLinks[i].style.display = 'none';
+                    }
+
+                    // Show the link corresponding to the generated quote
+                    var generatedQuoteLink = document.getElementById('generatedQuoteLink');
+                    generatedQuoteLink.textContent = data.text + ' - ' + data.author;
+                    generatedQuoteLink.href = data.sourceURL; // Set the href to the original source URL
+                    generatedQuoteLink.dataset.quoteId = data.id;
+                    generatedQuoteLink.style.display = 'block';
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
