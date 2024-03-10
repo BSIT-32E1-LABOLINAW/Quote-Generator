@@ -14,5 +14,5 @@
 * Copy to Clipboard only
 * Can't be shared to social media
 
-**Search for quotes by keyword**
+**Search for quotes by keyword (Not Included)**
 * Can't search because of API limitation
