@@ -57,7 +57,6 @@
                 cursor: pointer;
             }
 
-        /* Copy button styles */
         .copy-icon {
             position: absolute;
             bottom: 10px;
@@ -69,20 +68,20 @@
 </head>
 <body>
     <div class="containers">
-        <!-- Main content here -->
+        <!-- QUOTE GENERETOR SECTION -->
         <h2>Random Quote Generator</h2>
         <div id="quoteContainer" class="text-center">
             <blockquote id="quote" style="display: none;">
-                
                 <p><span id="quoteText"></span></p>
                 <footer><span id="quoteAuthor"></span><i class="fas fa-copy copy-icon" onclick="copyQuoteToClipboard()"></i></footer>
             </blockquote>
             <button id="generateQuoteBtn" class="btn btn-generate" onclick="generateRandomQuote()">Generate Random Quote</button>
         </div>
+
+        <!-- BROWES QUOTES SECTION-->
         <div id="browseQuotesContainer" class="mt-5">
             <h2 class="text-center mb-4">Browse Quotes</h2>
             <ul id="quoteList" class="list-group">
-                <!-- Quotes will be dynamically added here -->
             </ul>
         </div>
     </div>
@@ -137,6 +136,7 @@
             }
         }
 
+        // When quote is pressed it will show in the quote generator box
         function displayQuoteDetails(quote) {
             // Update the displayed quote
             document.getElementById('quoteText').textContent = quote.content;

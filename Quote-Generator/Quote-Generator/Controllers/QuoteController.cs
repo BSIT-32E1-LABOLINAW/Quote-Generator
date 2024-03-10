@@ -3,6 +3,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
+
+// The purpose of this is to retrieve the quotes from the API used in this small project.
 namespace QuoteGenerator.Controllers
 {
     public class QuoteController : Controller
@@ -16,7 +18,7 @@ namespace QuoteGenerator.Controllers
 
         public IActionResult Index()
         {
-            // For demonstration purposes, you can return an empty view here
+            
             return View();
         }
 
@@ -31,7 +33,6 @@ namespace QuoteGenerator.Controllers
                 {
                     var data = await response.Content.ReadAsAsync<dynamic>();
 
-                    // Assuming the response structure contains 'content' and 'author' fields
                     string quoteText = data.content;
                     string quoteAuthor = data.author;
 
