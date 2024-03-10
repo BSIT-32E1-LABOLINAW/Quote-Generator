@@ -7,9 +7,12 @@
 * added an copy button
 
 **Browes through quotes (Done)**
-* Displays 10 random quotes to browes
+* Displays 17 random quotes to browes
 * clickable to display
 
 **Share quotes (Done)**
 * Copy to Clipboard only
 * Can't be shared to social media
+
+**Search for quotes by keyword**
+* Can't search because of API limitation
