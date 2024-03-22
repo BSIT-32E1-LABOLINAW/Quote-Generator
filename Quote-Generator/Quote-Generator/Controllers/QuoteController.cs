@@ -1,24 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-
-// The purpose of this is to retrieve the quotes from the API used in this small project.
-namespace QuoteGenerator.Controllers
+namespace Quote_Generator.Controllers
 {
     public class QuoteController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly HttpClient _httpClient;
 
         public QuoteController(IHttpClientFactory httpClientFactory)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpClient = httpClientFactory.CreateClient("QuoteAPI");
         }
 
         public IActionResult Index()
         {
-            
             return View();
         }
 
@@ -26,27 +22,28 @@ namespace QuoteGenerator.Controllers
         {
             try
             {
-                var client = _httpClientFactory.CreateClient();
-                var response = await client.GetAsync("https://api.quotable.io/random");
+                var response = await _httpClient.GetAsync("random");
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var data = await response.Content.ReadAsAsync<dynamic>();
-
-                    string quoteText = data.content;
-                    string quoteAuthor = data.author;
-
-                    return Json(new { content = quoteText, author = quoteAuthor });
+                    var quote = await response.Content.ReadAsAsync<Quote>();
+                    return Json(new { content = quote.Content, author = quote.Author });
                 }
                 else
                 {
                     return NotFound();
                 }
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+    }
+
+    public class Quote
+    {
+        public string Content { get; set; }
+        public string Author { get; set; }
     }
 }
