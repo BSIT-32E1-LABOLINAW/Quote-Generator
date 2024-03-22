@@ -14,5 +14,9 @@
 * Copy to Clipboard only
 * Can't be shared to social media
 
-**Search for quotes by keyword**
+**Search for quotes by keyword (Not Included)**
 * Can't search because of API limitation
+
+
+Figma Link!!
+https://www.figma.com/file/TN9vuUpjHQpCrF8RgC1E2G/MVC-CALCULATOR-UI?type=design&node-id=8-3&mode=design
