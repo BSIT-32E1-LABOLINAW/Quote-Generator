@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Quote_Generator.Controllers
+namespace QuoteGenerator.Controllers
 {
     public class QuoteController : Controller
     {
@@ -10,7 +11,7 @@ namespace Quote_Generator.Controllers
 
         public QuoteController(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("QuoteAPI");
+            _httpClient = httpClientFactory.CreateClient();
         }
 
         public IActionResult Index()
@@ -18,32 +19,36 @@ namespace Quote_Generator.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Random()
+        public async Task<IActionResult> Random(string keyword)
         {
             try
             {
-                var response = await _httpClient.GetAsync("random");
+                string apiUrl = "https://api.quotable.io/random";
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    apiUrl += $"?tags={keyword}";
+                }
+
+                var response = await _httpClient.GetAsync(apiUrl);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var quote = await response.Content.ReadAsAsync<Quote>();
-                    return Json(new { content = quote.Content, author = quote.Author });
+                    var data = await response.Content.ReadAsAsync<dynamic>();
+
+                    string quoteText = data.content;
+                    string quoteAuthor = data.author;
+
+                    return Json(new { content = quoteText, author = quoteAuthor });
                 }
                 else
                 {
                     return NotFound();
                 }
             }
-            catch (HttpRequestException ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-    }
-
-    public class Quote
-    {
-        public string Content { get; set; }
-        public string Author { get; set; }
     }
 }

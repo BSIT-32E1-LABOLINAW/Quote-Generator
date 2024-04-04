@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -14,13 +15,7 @@ namespace Quote_Generator
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
-            // Add HttpClient with base address
-            builder.Services.AddHttpClient("QuoteAPI", client =>
-            {
-                client.BaseAddress = new Uri("https://api.quotable.io/");
-                // Add any other configuration you might need, such as default headers, timeout, etc.
-            });
+            builder.Services.AddHttpClient();
 
             var app = builder.Build();
 

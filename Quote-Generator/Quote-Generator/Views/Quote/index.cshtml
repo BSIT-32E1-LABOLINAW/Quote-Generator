@@ -6,12 +6,11 @@
     <title>Random Quote Generator</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="~/css/Quote.css"> <!-- Reference to Quote.css -->
-
+    <link rel="stylesheet" href="~/css/Quote.css">
 </head>
 <body>
 
-    <script src="~/js/Quote.js"></script> 
+    <script src="~/js/Quote.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <div class="containers">
@@ -22,15 +21,32 @@
                 <p><span id="quoteText"></span></p>
                 <footer><span id="quoteAuthor"></span><i class="fas fa-copy copy-icon" onclick="copyQuoteToClipboard()"></i></footer>
             </blockquote>
-            <button id="generateQuoteBtn" class="btn btn-generate" onclick="generateRandomQuote()">Generate Random Quote</button>
+            <!-- Add the onclick event to the button to generate quote by keyword -->
+            <button id="generateQuoteBtn" class="btn btn-generate" onclick="generateQuoteByKeyword()">Generate Quote</button>
         </div>
 
-        <!-- BROWES QUOTES SECTION-->
+        <!-- FILTER/KEYWORD SELECTION -->
+        <div class="mt-5">
+            <h2 class="text-center mb-4">Select a Keyword</h2>
+            <form id="keywordForm">
+                <div class="form-group">
+                    <label for="keywordSelect">Keyword:</label>
+                    <select class="form-control" id="keywordSelect" name="keyword">
+                        <option value="">-- Select Keyword --</option>
+                        <option value="nature">Nature</option>
+                        <option value="inspiration">Inspiration</option>
+                        <!-- Add more options for other keywords as needed -->
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <!-- BROWSE QUOTES SECTION -->
         <div id="browseQuotesContainer" class="mt-5">
             <h2 class="text-center mb-4">Browse Quotes</h2>
             <ul id="quoteList" class="list-group">
             </ul>
         </div>
-    </div>    
+    </div>
 </body>
 </html>

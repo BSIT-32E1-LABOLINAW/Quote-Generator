@@ -19,10 +19,40 @@ async function generateRandomQuote() {
     }
 }
 
+function generateQuoteByKeyword() {
+    // Get the selected keyword from the dropdown menu
+    var selectedKeyword = document.getElementById("keywordSelect").value;
+
+    // Call the fetchQuoteByKeyword function passing the selected keyword
+    fetchQuoteByKeyword(selectedKeyword);
+}
+
+// Function to fetch a quote based on the selected keyword
+async function fetchQuoteByKeyword(keyword) {
+    try {
+        // Make an HTTP GET request to fetch a quote based on the selected keyword
+        const response = await fetch(`https://api.quotable.io/random?tags=${keyword}`);
+
+        if (response.ok) {
+            // Parse the JSON response
+            const data = await response.json();
+
+            // Update the HTML elements with the fetched quote data
+            document.getElementById("quoteText").textContent = data.content;
+            document.getElementById("quoteAuthor").textContent = data.author;
+            document.getElementById("quote").style.display = "block";
+        } else {
+            console.error("Failed to fetch quote:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
 async function browseQuotes() {
     try {
         // Fetch up to 10 quotes from the Quotable API
-        const response = await fetch('https://api.quotable.io/quotes?limit=17');
+        const response = await fetch('https://api.quotable.io/quotes?limit=10');
         const data = await response.json();
 
         // Clear existing quotes
@@ -70,5 +100,5 @@ function copyQuoteToClipboard() {
 // Load initial quotes when the page is loaded
 window.onload = function () {
     browseQuotes();
-    generateRandomQuote();
+    generateRandomQuote(); 
 };
